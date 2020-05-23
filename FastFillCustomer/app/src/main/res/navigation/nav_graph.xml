@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/UsersFragment">
+
+    <fragment
+        android:id="@+id/UsersFragment"
+        android:name="com.gooliluck.fastfillcustomer.ui.UsersFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_users">
+
+        <action
+            android:id="@+id/action_UsersFragment_to_UserDetailFragment"
+            app:destination="@id/UserDetailFragment" />
+        <action
+            android:id="@+id/action_UsersFragment_to_addNewUserFragment"
+            app:destination="@id/addNewUserFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_UsersFragment_to_addOrderFragment"
+            app:destination="@id/addOrderFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserDetailFragment"
+        android:name="com.gooliluck.fastfillcustomer.ui.UserDetailFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_user_detail">
+
+        <action
+            android:id="@+id/action_UserDetailFragment_to_UsersFragment"
+            app:destination="@id/UsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOrderFragment"
+        android:name="com.gooliluck.fastfillcustomer.ui.AddOrderFragment"
+        android:label="fragment_add_order"
+        tools:layout="@layout/fragment_add_order" />
+    <fragment
+        android:id="@+id/addNewUserFragment"
+        android:name="com.gooliluck.fastfillcustomer.ui.AddNewUserFragment"
+        android:label="fragment_add_new_user"
+        tools:layout="@layout/fragment_add_new_user" />
+</navigation>
