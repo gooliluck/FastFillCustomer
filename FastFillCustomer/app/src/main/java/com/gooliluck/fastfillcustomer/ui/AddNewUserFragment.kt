@@ -32,7 +32,7 @@ class AddNewUserFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.currentUser.observe(viewLifecycleOwner , Observer { currentUser->
+        mainViewModel.currentUser.observe(viewLifecycleOwner , Observer { currentUser ->
             currentUser?.let {
                 setEditText(et_name,currentUser.name)
                 setEditText(et_phone_number,currentUser.phoneNumber)
@@ -47,10 +47,14 @@ class AddNewUserFragment : BaseFragment() {
         btn_save_user.setOnClickListener {
             if (et_name.text.isNotEmpty() && et_phone_number.text.isNotEmpty() && et_birthday.text.isNotEmpty() && et_payment.text.isNotEmpty() &&
                 et_work.text.isNotEmpty() && et_home_desc.text.isNotEmpty() && et_desc.text.isNotEmpty()) {
-                val update = mainViewModel.updateUserData(et_name.text.toString(),et_birthday.text.toString(),et_phone_number.text.toString(),et_payment.text.toString().toInt(),et_desc.text.toString()
-                    ,et_home_desc.text.toString(),et_work.text.toString())
-//                if (update)
-//                    requireActivity().onBackPressed()
+                mainViewModel.tryUpdateUserData(
+                    et_name.text.toString(),
+                    et_birthday.text.toString(),
+                    et_phone_number.text.toString(),
+                    et_payment.text.toString().toInt(),
+                    et_desc.text.toString(),
+                    et_home_desc.text.toString(),
+                    et_work.text.toString())
             } else {
                 Toast.makeText(requireContext(),"要寫好全部",Toast.LENGTH_LONG).show()
             }

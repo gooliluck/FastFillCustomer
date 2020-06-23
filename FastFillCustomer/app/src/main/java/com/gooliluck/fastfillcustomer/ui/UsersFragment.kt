@@ -52,6 +52,17 @@ class UsersFragment : BaseFragment() {
         })
         rvUserList.layoutManager = LinearLayoutManager(requireContext())
         rvUserList.adapter = userListAdapter
+        mainViewModel.getUserByPhoneNumber("0983733777")
+//        mainViewModel.getUserByName("startbugs")
+//        mainViewModel.getUserByName("start")
+        mainViewModel.queryUserList.observe(viewLifecycleOwner, Observer { users ->
+            Log.e("show user","Query start $users")
+            for (user in users) {
+                Log.e("show user","user id : ${user.id} and name : ${user.name}")
+            }
+        })
+
+
         mainViewModel.userList.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()){
                 val newUsers = mutableListOf<User>()

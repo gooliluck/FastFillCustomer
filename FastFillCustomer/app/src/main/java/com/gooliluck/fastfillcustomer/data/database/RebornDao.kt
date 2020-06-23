@@ -7,6 +7,9 @@ import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.model.TABLE_ORDER
 import com.gooliluck.fastfillcustomer.data.model.TABLE_USER
 import com.gooliluck.fastfillcustomer.data.model.User
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface RebornDao {
@@ -20,10 +23,10 @@ interface RebornDao {
      fun updateUser(user: User)
 
     @Query("SELECT * FROM $TABLE_USER WHERE id = :id")
-     fun getUserById(id: Long): User
+     fun getUserById(id: Long): Flowable<User>
 //    SELECT * FROM user WHERE user_name LIKE :name AND last_name LIKE :last
-    @Query("SELECT * FROM $TABLE_USER WHERE phone_number = :phone")
-     fun getUserByUserInfo(phone : String): List<User>
+    @Query("SELECT * FROM $TABLE_USER WHERE phone_number LIKE :phone")
+     fun getUserByUserInfo(phone : String): Single<List<User>>
 
     @Delete
      fun deleteUser(user: User)

@@ -23,10 +23,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val showFab : LiveData<Boolean>
         get() = mShowFab
 
+    val queryUserList = rebo.queryUserList
+    val currentDaoUser = rebo.currentDaoUser
+
     private var mNavControl = MutableLiveData<JPNavControl>()
     val navControl : LiveData<JPNavControl>
         get() = mNavControl
-
 
     fun getCurrentAllOrders() : LiveData<List<Order>>? {
         currentUser.value?.let {
@@ -47,11 +49,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         rebo.getUserById(userId)
     }
 
+    fun getUserByPhoneNumber(phoneNumber: String){
+        rebo.searchUserByPhoneNumber(phoneNumber,"")
+    }
+
+    fun getUserByName(name: String){
+        rebo.searchUserByPhoneNumber("",name)
+    }
+
     fun setFabShowing(show : Boolean) {
         mShowFab.value = show
     }
 
-    fun updateUserData(name : String?,birthday : String? , phoneNumber : String?, advancePayment : Int?, desc:String?, homeDesc:String?, work:String?) : Boolean{
+    fun tryUpdateUserData(name : String?,birthday : String? , phoneNumber : String?, advancePayment : Int?, desc:String?, homeDesc:String?, work:String?){
         Log.e("jptest","updateUserData name:$name ")
         currentUser.value?.let { user ->
             name?.let { user.name = it }
@@ -72,21 +82,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             desc?.let { newUser.desc = it }
             homeDesc?.let { newUser.homeDesc = it }
             work?.let { newUser.work = it }
-            val users = rebo.checkUserByInfo(newUser)
-//            val user = rebo.getUserById(1)
-            Log.e("jptest","show users $users")
-            if (users.isNotEmpty()) {
-                var message = ""
-                users.forEach {
-                    message += "用戶代號：${it.id} 姓名：${it.name} 電話：${it.phoneNumber} 已經存在 \n"
-                }
-                mAlertMessage.value = message
-                return false
-            } else {
-                currentUser.postValue(newUser)
-                rebo.updateUser(newUser)
-            }
+            rebo.checkUserByInfo(newUser)
         }
-        return true
     }
 }

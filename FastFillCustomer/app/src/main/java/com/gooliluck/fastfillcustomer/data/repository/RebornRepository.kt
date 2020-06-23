@@ -1,14 +1,14 @@
 package com.gooliluck.fastfillcustomer.data.repository
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
 import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.model.User
 import com.gooliluck.rebornproject.database.RebornDatabase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class RebornRepository(application: Application) {
     companion object {
@@ -18,7 +18,12 @@ class RebornRepository(application: Application) {
         RebornRepository(application).also { INSTANCE = it }
     }
     val rbDao = RebornDatabase.getInstance(application.baseContext).rebornDao
-
+    private var mQueryUserList = MutableLiveData<List<User>>()
+    val queryUserList : LiveData<List<User>>
+        get() = mQueryUserList
+    private var mCurrentDaoUser = MutableLiveData<User>()
+    val currentDaoUser : LiveData<User>
+        get() = mCurrentDaoUser
     fun getAllUsers() : LiveData<List<User>> {
         return rbDao.getAllUsers()
     }
@@ -31,12 +36,43 @@ class RebornRepository(application: Application) {
         rbDao.updateUser(user)
     }
 
-    fun checkUserByInfo(user: User) : List<User> {
+    fun checkUserByInfo(user: User) {
         Log.e("jptest","user name is ${user.name} ${user.phoneNumber}")
-        return rbDao.getUserByUserInfo(user.name)
+        rbDao.getUserByUserInfo(user.phoneNumber)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ users->
+                mQueryUserList.value = users
+            },{
+                Log.e("jptest","error $it")
+            }).let {
+                Log.e("jptest","disposable $it")
+            }
     }
 
-    fun getUserById(userId:Long) : User {
-        return rbDao.getUserById(userId)
+    fun searchUserByPhoneNumber(phoneNumber : String,name:String) {
+        rbDao.getUserByUserInfo(phoneNumber)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ users->
+                mQueryUserList.value = users
+            },{
+                Log.e("jptest","error $it")
+            }).let {
+                Log.e("jptest","disposable $it")
+            }
+    }
+
+    fun getUserById(userId:Long) {
+        rbDao.getUserById(userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+            },{
+
+            }).let {
+
+            }
     }
 }

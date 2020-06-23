@@ -13,42 +13,52 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <TextView
+                android:id="@+id/user_id_in_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"/>
             <EditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_name"/>
             <EditText
                 android:id="@+id/et_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
+                android:inputType="phone|textNoSuggestions"
                 android:hint="@string/new_user_phone"/>
             <EditText
                 android:id="@+id/et_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_birthday"/>
             <EditText
                 android:id="@+id/et_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_advance_payment"/>
             <EditText
                 android:id="@+id/et_work"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_et_work"/>
             <EditText
                 android:id="@+id/et_home_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_et_home"/>
             <EditText
                 android:id="@+id/et_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
                 android:hint="@string/new_user_et_desc"/>
             <Button
                 android:id="@+id/btn_save_user"
