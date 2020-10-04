@@ -1,4 +1,4 @@
-package com.gooliluck.rebornproject.database
+package com.gooliluck.fastfillcustomer.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -7,10 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.model.User
-import com.gooliluck.rebornproject.database.converter.DateConverter
-import com.gooliluck.rebornproject.database.converter.LongsConverter
-@TypeConverters(DateConverter::class,LongsConverter::class)
-@Database(entities = [User::class, Order::class], version = 1)
+import com.gooliluck.fastfillcustomer.data.converter.DateConverter
+import com.gooliluck.fastfillcustomer.data.converter.StringsConverter
+import com.gooliluck.fastfillcustomer.data.converter.LongsConverter
+import com.gooliluck.fastfillcustomer.data.model.Employee
+import com.gooliluck.fastfillcustomer.data.model.Service
+
+@TypeConverters(DateConverter::class, LongsConverter::class, StringsConverter::class)
+@Database(entities = [User::class, Order::class, Service::class, Employee::class], version = 1)
 abstract class RebornDatabase : RoomDatabase(){
     abstract val rebornDao: RebornDao
 

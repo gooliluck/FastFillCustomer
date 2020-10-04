@@ -1,4 +1,4 @@
-package com.gooliluck.rebornproject.database.converter
+package com.gooliluck.fastfillcustomer.data.converter
 
 import androidx.room.TypeConverter
 import java.util.*

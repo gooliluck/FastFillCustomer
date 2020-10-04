@@ -9,6 +9,7 @@ import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.model.User
 import com.gooliluck.fastfillcustomer.data.repository.RebornRepository
 import com.gooliluck.fastfillcustomer.ui.model.JPNavControl
+import java.util.*
 
 const val USER_ID_KEY = "user_id"
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,12 +24,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val showFab : LiveData<Boolean>
         get() = mShowFab
 
+    private var mShowFabMenu = MutableLiveData<Boolean>().apply { value = false }
+    val showFabMenu : LiveData<Boolean>
+        get() = mShowFabMenu
+
     val queryUserList = rebo.queryUserList
     val currentDaoUser = rebo.currentDaoUser
 
     private var mNavControl = MutableLiveData<JPNavControl>()
     val navControl : LiveData<JPNavControl>
         get() = mNavControl
+
+
+    fun setFabMenuShow(show : Boolean){
+        mShowFabMenu.value = show
+    }
 
     fun getCurrentAllOrders() : LiveData<List<Order>>? {
         currentUser.value?.let {
@@ -61,11 +71,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mShowFab.value = show
     }
 
-    fun tryUpdateUserData(name : String?,birthday : String? , phoneNumber : String?, advancePayment : Int?, desc:String?, homeDesc:String?, work:String?){
+    fun tryUpdateUserData(name : String?,birthday : Calendar? , phoneNumber : String?, advancePayment : Int?, desc:String?, homeDesc:String?, work:String?){
         Log.e("jptest","updateUserData name:$name ")
         currentUser.value?.let { user ->
             name?.let { user.name = it }
-            birthday?.let { user.birthday = it }
+            birthday?.let { user.birthday = it.time }
             phoneNumber?.let { user.phoneNumber = it }
             advancePayment?.let { user.advancePayment = it }
             desc?.let { user.desc = it }
@@ -74,9 +84,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             currentUser.postValue(user)
             rebo.updateUser(user)
         } ?: kotlin.run {
-            val newUser = User(name = "",  birthday = "", phoneNumber = "", advancePayment = 0, desc= "", homeDesc = "", work = "", orders = null )
+            val newUser = User(name = "",  birthday = Calendar.getInstance().time, phoneNumber = "", advancePayment = 0, desc= "", homeDesc = "", work = "", orders = null ,firestoreDocId = "")
             name?.let { newUser.name = it }
-            birthday?.let { newUser.birthday = it }
+            birthday?.let { newUser.birthday = it.time }
             phoneNumber?.let { newUser.phoneNumber = it }
             advancePayment?.let { newUser.advancePayment = it }
             desc?.let { newUser.desc = it }

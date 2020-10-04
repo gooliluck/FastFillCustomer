@@ -25,28 +25,28 @@
 
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_new_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="mini"
+        android:text="新增訂單"
+        app:icon="@drawable/common_full_open_on_phone"
         app:layout_constraintBottom_toBottomOf="@id/fab"
         app:layout_constraintEnd_toEndOf="@id/fab"
         app:layout_constraintTop_toTopOf="@id/fab"
         app:layout_constraintStart_toStartOf="@id/fab"
-        app:srcCompat="@android:drawable/ic_menu_day"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="mini"
+        android:text="新增客戶"
+        app:icon="@drawable/common_full_open_on_phone"
         app:layout_constraintBottom_toBottomOf="@id/fab"
         app:layout_constraintEnd_toEndOf="@id/fab"
         app:layout_constraintTop_toTopOf="@id/fab"
         app:layout_constraintStart_toStartOf="@id/fab"
-        app:srcCompat="@android:drawable/ic_menu_myplaces"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

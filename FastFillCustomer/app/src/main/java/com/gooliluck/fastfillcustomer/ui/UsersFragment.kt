@@ -7,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gooliluck.fastfillcustomer.R
 import com.gooliluck.fastfillcustomer.adapter.UserListAdapter
 import com.gooliluck.fastfillcustomer.data.model.User
-import com.gooliluck.fastfillcustomer.main.USER_ID_KEY
 import com.gooliluck.fastfillcustomer.ui.model.JPNavControl
 import kotlinx.android.synthetic.main.fragment_users.*
 

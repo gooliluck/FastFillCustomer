@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.whenCreated
 import androidx.navigation.Navigation
 import com.gooliluck.fastfillcustomer.R
 
@@ -16,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel : MainViewModel
-    private var isFABOpen = false
     private var listener = View.OnClickListener { v ->
         v?.let {
             Log.e("jptest","show id ${it.id}")
@@ -29,22 +27,24 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         mainViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(MainViewModel::class.java)
         fab.setOnClickListener {
-            if(!isFABOpen) {
-                showFABMenu()
-            } else {
-                closeFABMenu()
+            mainViewModel.showFabMenu.value?.let { show ->
+                if(!show) {
+                    mainViewModel.setFabMenuShow(show = true)
+                } else {
+                    mainViewModel.setFabMenuShow(show = false)
+                }
             }
         }
 
 
         add_new_user.setOnClickListener {
-            closeFABMenu()
+            mainViewModel.setFabMenuShow(show = false)
             mainViewModel.setFabShowing(false)
             Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.addNewUserFragment)
         }
 
         add_new_order.setOnClickListener {
-            closeFABMenu()
+            mainViewModel.setFabMenuShow(show = false)
             mainViewModel.setFabShowing(false)
             Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.addOrderFragment)
         }
@@ -56,6 +56,19 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        mainViewModel.showFabMenu.observe(this, Observer {
+            when(it){
+                true -> {
+                    add_new_user.animate().translationY(-resources.getDimension(R.dimen.standard_55)).alpha(1.0f).scaleX(1.0f).scaleY(1.0f)
+                    add_new_order.animate().translationY(-resources.getDimension(R.dimen.standard_105)).alpha(1.0f).scaleX(1.0f).scaleY(1.0f)
+
+                }
+                false -> {
+                    add_new_user.animate().translationY(0.0f).alpha(0.0f).scaleX(0.0f).scaleY(0.0f)
+                    add_new_order.animate().translationY(0.0f).alpha(0.0f).scaleX(0.0f).scaleY(0.0f)
+                }
+            }
+        })
 
         mainViewModel.showFab.observe(this, Observer {
             when(it){
@@ -73,17 +86,6 @@ class MainActivity : AppCompatActivity() {
     }
     private fun closeFabFloat(){
         fab.animate().alpha(0.0f).scaleY(0.0f).scaleX(0.0f)
-    }
-    private fun closeFABMenu() {
-        isFABOpen = false
-        add_new_user.animate().translationY(0.0f).alpha(0.0f).scaleX(0.0f).scaleY(0.0f)
-        add_new_order.animate().translationY(0.0f).alpha(0.0f).scaleX(0.0f).scaleY(0.0f)
-    }
-
-    private fun showFABMenu() {
-        isFABOpen = true
-        add_new_user.animate().translationY(-resources.getDimension(R.dimen.standard_55)).alpha(1.0f).scaleX(1.0f).scaleY(1.0f)
-        add_new_order.animate().translationY(-resources.getDimension(R.dimen.standard_105)).alpha(1.0f).scaleX(1.0f).scaleY(1.0f)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

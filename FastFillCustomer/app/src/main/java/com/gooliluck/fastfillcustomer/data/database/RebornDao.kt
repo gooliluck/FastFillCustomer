@@ -1,13 +1,11 @@
-package com.gooliluck.rebornproject.database
+package com.gooliluck.fastfillcustomer.data.database
 
-import android.database.Observable
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.model.TABLE_ORDER
 import com.gooliluck.fastfillcustomer.data.model.TABLE_USER
 import com.gooliluck.fastfillcustomer.data.model.User
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -43,7 +41,7 @@ interface RebornDao {
     @Query("SELECT * FROM $TABLE_ORDER WHERE 'id' = :id")
     fun getOrderById(id: Long): Order
 
-    @Query("SELECT * FROM $TABLE_ORDER WHERE 'userid' LIKE :userId ORDER BY date")
+    @Query("SELECT * FROM $TABLE_ORDER WHERE 'userid' LIKE :userId")
     fun getOrderByOrderUser(userId : Long): LiveData<List<Order>>
 
     @Delete

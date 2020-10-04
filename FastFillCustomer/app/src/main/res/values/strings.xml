@@ -13,11 +13,11 @@
     <string name="new_user_name">姓名</string>
     <string name="new_user_phone">電話</string>
     <string name="new_user_birthday">生日</string>
-    <string name="new_user_advance_payment">預付金</string>
+    <string name="new_user_advance_payment">預付</string>
     <string name="new_user_et_desc">備注</string>
     <string name="new_user_et_work">職業</string>
     <string name="new_user_et_home">家庭</string>
-    <string name="new_user_save">儲存</string>
+    <string name="new_user_save">儲存/更新</string>
 
     <string name="new_order_wash">洗髮金額</string>
     <string name="new_order_cut">剪髮金額</string>
@@ -28,4 +28,5 @@
     <string name="new_order_product_title">產品：</string>
     <string name="new_order_product_desc">買的產品內容</string>
     <string name="new_order_product_cost">產品總金額</string>
+    <string name="write_all_to_save">要寫好全部才可以存哦</string>
 </resources>

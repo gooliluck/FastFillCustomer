@@ -1,10 +1,6 @@
 package com.gooliluck.fastfillcustomer.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +8,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 
 import com.gooliluck.fastfillcustomer.R
+import com.gooliluck.fastfillcustomer.utils.RBDateController
 import kotlinx.android.synthetic.main.fragment_add_new_user.*
+import java.util.*
 
 class AddNewUserFragment : BaseFragment() {
 
@@ -32,11 +29,12 @@ class AddNewUserFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dp_birthday.maxDate = System.currentTimeMillis()
         mainViewModel.currentUser.observe(viewLifecycleOwner , Observer { currentUser ->
             currentUser?.let {
                 setEditText(et_name,currentUser.name)
                 setEditText(et_phone_number,currentUser.phoneNumber)
-                setEditText(et_birthday,currentUser.birthday)
+                tv_birthday.text = currentUser.birthdayString()
                 setEditText(et_payment,currentUser.advancePayment.toString())
                 setEditText(et_work,currentUser.work)
                 setEditText(et_home_desc,currentUser.homeDesc)
@@ -45,18 +43,21 @@ class AddNewUserFragment : BaseFragment() {
         })
 
         btn_save_user.setOnClickListener {
-            if (et_name.text.isNotEmpty() && et_phone_number.text.isNotEmpty() && et_birthday.text.isNotEmpty() && et_payment.text.isNotEmpty() &&
+            val birthday = RBDateController.getDateFromDatePicker(dp_birthday)
+            if (et_name.text.isNotEmpty() && et_phone_number.text.isNotEmpty() && birthday != null && et_payment.text.isNotEmpty() &&
                 et_work.text.isNotEmpty() && et_home_desc.text.isNotEmpty() && et_desc.text.isNotEmpty()) {
+                val calendar = Calendar.getInstance(Locale.TAIWAN)
+                calendar.timeInMillis = birthday.time
                 mainViewModel.tryUpdateUserData(
                     et_name.text.toString(),
-                    et_birthday.text.toString(),
+                    calendar,
                     et_phone_number.text.toString(),
                     et_payment.text.toString().toInt(),
                     et_desc.text.toString(),
                     et_home_desc.text.toString(),
                     et_work.text.toString())
             } else {
-                Toast.makeText(requireContext(),"要寫好全部",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),getString(R.string.write_all_to_save),Toast.LENGTH_LONG).show()
             }
         }
     }

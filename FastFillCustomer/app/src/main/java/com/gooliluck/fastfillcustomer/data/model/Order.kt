@@ -6,14 +6,17 @@ import java.util.*
 
 const val TABLE_ORDER = "orders"
 @Entity(tableName = TABLE_ORDER)
-class Order(@PrimaryKey val id: Long,
-            var userid : Long,
-            var cut : Int?,
-            var dye : Int?,
-            var wash : Int?,
-            var perm : Int?,
-            var date: Long,
-            var product : Int?,
-            var desc : String
+data class Order(@PrimaryKey val id: Long,
+                 var userid : Long,
+                 var employees : List<Long>,
+                 var serviceList : List<String>,
+                 var desc : String
 ) {
+    override fun toString(): String {
+        return "Order(id:$id" +
+                "userid:$userid" +
+                "employees:$employees" +
+                "serviceList:$serviceList" +
+                "desc:$desc)"
+    }
 }
