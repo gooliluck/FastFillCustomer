@@ -5,20 +5,26 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.gooliluck.fastfillcustomer.data.model.Customer
 import com.gooliluck.fastfillcustomer.data.model.Order
-import com.gooliluck.fastfillcustomer.data.model.User
 import com.gooliluck.fastfillcustomer.data.repository.RebornRepository
 import com.gooliluck.fastfillcustomer.ui.model.JPNavControl
 import java.util.*
 
 const val USER_ID_KEY = "user_id"
+enum class UserStatus {
+    NONE,LOGIN,SUCCESS
+}
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val rebo = RebornRepository.getInstance(application)
     private var mAlertMessage = MutableLiveData<String>()
     val alertMessage : LiveData<String>
         get() = mAlertMessage
-    val userList = rebo.getAllUsers()
-    var currentUser = MutableLiveData<User>()
+//    val userList = rebo.getAllUsers()
+    var currentUser = MutableLiveData<Customer>()
     var currentOrder = MutableLiveData<Order>()
     private var mShowFab = MutableLiveData<Boolean>()
     val showFab : LiveData<Boolean>
@@ -28,24 +34,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val showFabMenu : LiveData<Boolean>
         get() = mShowFabMenu
 
-    val queryUserList = rebo.queryUserList
-    val currentDaoUser = rebo.currentDaoUser
+    private var mUserStatus = MutableLiveData<UserStatus>().apply { value = UserStatus.NONE }
+    val userStatus : LiveData<UserStatus>
+        get() = mUserStatus
+
+    val queryUserList = rebo.queryCustomerList
 
     private var mNavControl = MutableLiveData<JPNavControl>()
     val navControl : LiveData<JPNavControl>
         get() = mNavControl
 
+    val fireStoreDB = Firebase.firestore
 
-    fun setFabMenuShow(show : Boolean){
+    fun setFabMenuShow(show : Boolean) {
         mShowFabMenu.value = show
     }
 
-    fun getCurrentAllOrders() : LiveData<List<Order>>? {
-        currentUser.value?.let {
-            return rebo.getAllOrdersByUser(it.id)
-        }
-        return null
+    fun setUserStatus(userStatus : UserStatus) {
+        mUserStatus.value = userStatus
     }
+
+//    fun getCurrentAllOrders() : LiveData<List<Order>>? {
+//        currentUser.value?.let {
+//            return rebo.getAllOrdersByUser(it.id)
+//        }
+//        return null
+//    }
 
     fun clearNavControl() {
         mNavControl.value = null
@@ -55,17 +69,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mNavControl.value = jpNavControl
     }
 
-    fun getUserById(userId : Long){
-        rebo.getUserById(userId)
-    }
+//    fun getUserById(userId : Long){
+//        rebo.getUserById(userId)
+//    }
 
-    fun getUserByPhoneNumber(phoneNumber: String){
-        rebo.searchUserByPhoneNumber(phoneNumber,"")
-    }
+//    fun getUserByPhoneNumber(phoneNumber: String){
+//        rebo.searchUserByPhoneNumber(phoneNumber,"")
+//    }
 
-    fun getUserByName(name: String){
-        rebo.searchUserByPhoneNumber("",name)
-    }
+//    fun getUserByName(name: String){
+//        rebo.searchUserByPhoneNumber("",name)
+//    }
 
     fun setFabShowing(show : Boolean) {
         mShowFab.value = show
@@ -82,9 +96,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             homeDesc?.let { user.homeDesc = it }
             work?.let { user.work = it }
             currentUser.postValue(user)
-            rebo.updateUser(user)
         } ?: kotlin.run {
-            val newUser = User(name = "",  birthday = Calendar.getInstance().time, phoneNumber = "", advancePayment = 0, desc= "", homeDesc = "", work = "", orders = null ,firestoreDocId = "")
+            val newUser = Customer(name = "",  birthday = Calendar.getInstance().time, phoneNumber = "", advancePayment = 0, desc= "", homeDesc = "", work = "", firestoreDocId = "")
             name?.let { newUser.name = it }
             birthday?.let { newUser.birthday = it.time }
             phoneNumber?.let { newUser.phoneNumber = it }
@@ -92,7 +105,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             desc?.let { newUser.desc = it }
             homeDesc?.let { newUser.homeDesc = it }
             work?.let { newUser.work = it }
-            rebo.checkUserByInfo(newUser)
         }
     }
 }

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="user"
-            type="com.gooliluck.fastfillcustomer.data.model.User" />
+            type="com.gooliluck.fastfillcustomer.data.model.Customer" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

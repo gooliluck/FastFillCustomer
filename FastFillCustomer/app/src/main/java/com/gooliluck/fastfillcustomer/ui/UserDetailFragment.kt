@@ -1,18 +1,13 @@
 package com.gooliluck.fastfillcustomer.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import com.gooliluck.fastfillcustomer.R
 import kotlinx.android.synthetic.main.fragment_user_detail.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -33,19 +28,10 @@ class UserDetailFragment : BaseFragment() {
             requireActivity().onBackPressed()
         }
 
-        mainViewModel.currentUser.observe(viewLifecycleOwner, Observer { user->
+        mainViewModel.currentUser.observe(viewLifecycleOwner, { user->
             tv_user_name.text = user.name
             tv_user_birthday.text = user.birthdayString()
-            user.orders?.let {
-                ll_order_lists.removeAllViews()
-                it.forEach { orderId ->
-                    val textView = TextView(requireContext())
-                    val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                    textView.layoutParams = params
-                    textView.text = orderId.toString()
-                    ll_order_lists.addView(textView)
-                }
-            }
+
         })
     }
 }

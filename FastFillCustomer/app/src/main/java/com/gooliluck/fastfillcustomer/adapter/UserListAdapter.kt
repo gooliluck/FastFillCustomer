@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gooliluck.fastfillcustomer.R
-import com.gooliluck.fastfillcustomer.data.model.User
+import com.gooliluck.fastfillcustomer.data.model.Customer
 import com.gooliluck.fastfillcustomer.databinding.ProfileCouponWalletTicketItemBinding
 
-class UserListAdapter (val context: Context, private val listener : View.OnClickListener, private val editListener : View.OnClickListener) : ListAdapter<User, UserListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class UserListAdapter (val context: Context, private val listener : View.OnClickListener, private val editListener : View.OnClickListener) : ListAdapter<Customer, UserListAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object{
-        private var DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>(){
-            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+        private var DIFF_CALLBACK = object : DiffUtil.ItemCallback<Customer>(){
+            override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean {
                 Log.e("UserListAdapter","areItemsTheSame =============================================")
                 Log.e("UserListAdapter","oldItem is ${oldItem.id}")
                 Log.e("UserListAdapter","newItem is ${newItem.id}")
@@ -28,8 +28,8 @@ class UserListAdapter (val context: Context, private val listener : View.OnClick
             }
 
             override fun areContentsTheSame(
-                oldItem: User,
-                newItem: User
+                oldItem: Customer,
+                newItem: Customer
             ): Boolean {
                 Log.e("UserListAdapter","areContentsTheSame =============================================")
                 Log.e("UserListAdapter","oldItem is ${oldItem.name}")
@@ -66,7 +66,7 @@ class UserListAdapter (val context: Context, private val listener : View.OnClick
         RecyclerView.ViewHolder(itemView) {
         val vTicketClickableView = itemView.findViewById<ConstraintLayout>(R.id.cl_ticket_active)!!
         val imgBtnEdit = itemView.findViewById<ImageButton>(R.id.imgbtn_edit)!!
-        fun bindingData(data : User){
+        fun bindingData(data : Customer){
             binding.user = data
         }
     }

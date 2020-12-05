@@ -8,16 +8,15 @@ import java.util.*
 
 const val TABLE_USER = "users"
 @Entity (tableName = TABLE_USER)
-data class User(@PrimaryKey(autoGenerate = true) val id: Long = 0,
-                var name : String,
-                var birthday : Date,
-                @ColumnInfo(name = "phone_number") var phoneNumber : String,
-                @ColumnInfo(name = "advance_payment") var advancePayment : Int,
-                var desc : String,
-                @ColumnInfo(name = "home_desc") var homeDesc : String,
-                var work : String,
-                var orders : List<Long>?,
-                var firestoreDocId : String
+data class Customer(@PrimaryKey(autoGenerate = true) val id: Long = 0,
+                    var name : String,
+                    var birthday : Date,
+                    @ColumnInfo(name = "phone_number") var phoneNumber : String,
+                    @ColumnInfo(name = "advance_payment") var advancePayment : Int,
+                    var desc : String,
+                    @ColumnInfo(name = "home_desc") var homeDesc : String,
+                    var work : String,
+                    var firestoreDocId : String
 ) {
     override fun toString(): String {
         return "User(" +
@@ -29,15 +28,18 @@ data class User(@PrimaryKey(autoGenerate = true) val id: Long = 0,
                 "desc:$desc" +
                 "homeDesc:$homeDesc" +
                 "work:$work" +
-                "orders:$orders" +
                 ")"
     }
     fun birthdayString() : String {
         return SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN).format(birthday)
     }
-    fun toFireStoreUser() : FireStoreUser{
+    fun toFireStoreUser() : HashMap<String,Any>{
         val birthdayTime = this.birthday.time
-        return FireStoreUser(id,name,birthdayTime,phoneNumber,advancePayment, desc, homeDesc, work, orders, firestoreDocId)
+
+        return hashMapOf(
+            "id" to id,"name" to name,"birthdayTime" to birthdayTime,
+            "phoneNumber" to phoneNumber,"advancePayment" to advancePayment,
+            "desc" to desc, "homeDesc" to homeDesc, "work" to work, "firestoreDocId" to firestoreDocId)
     }
 }
 data class FireStoreUser(val id: Long = 0,
@@ -48,13 +50,12 @@ data class FireStoreUser(val id: Long = 0,
                          var desc : String,
                          var homeDesc : String,
                          var work : String,
-                         var orders : List<Long>?,
                          var firestoreDocId : String){
 
-    fun toUser() : User {
+    fun toUser() : Customer {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = birthday
-        return User(id,name,calendar.time,phoneNumber, advancePayment, desc, homeDesc, work, orders, firestoreDocId)
+        return Customer(id,name,calendar.time,phoneNumber, advancePayment, desc, homeDesc, work, firestoreDocId)
     }
 }
 

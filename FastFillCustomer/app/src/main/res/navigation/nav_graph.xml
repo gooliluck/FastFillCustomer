@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_add_order" />
     <fragment
         android:id="@+id/addNewUserFragment"
-        android:name="com.gooliluck.fastfillcustomer.ui.AddNewUserFragment"
+        android:name="com.gooliluck.fastfillcustomer.ui.EditUserFragment"
         android:label="fragment_add_new_user"
         tools:layout="@layout/fragment_add_new_user" />
 </navigation>
