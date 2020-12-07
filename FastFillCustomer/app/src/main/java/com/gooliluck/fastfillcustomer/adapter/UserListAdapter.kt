@@ -21,10 +21,10 @@ class UserListAdapter (val context: Context, private val listener : View.OnClick
         private var DIFF_CALLBACK = object : DiffUtil.ItemCallback<Customer>(){
             override fun areItemsTheSame(oldItem: Customer, newItem: Customer): Boolean {
                 Log.e("UserListAdapter","areItemsTheSame =============================================")
-                Log.e("UserListAdapter","oldItem is ${oldItem.id}")
-                Log.e("UserListAdapter","newItem is ${newItem.id}")
+                Log.e("UserListAdapter","oldItem is ${oldItem.name}")
+                Log.e("UserListAdapter","newItem is ${newItem.name}")
                 Log.e("UserListAdapter","areItemsTheSame *****************************************")
-                return oldItem.id == newItem.id
+                return oldItem.name == newItem.name && oldItem.phoneNumber == newItem.phoneNumber
             }
 
             override fun areContentsTheSame(
@@ -35,10 +35,9 @@ class UserListAdapter (val context: Context, private val listener : View.OnClick
                 Log.e("UserListAdapter","oldItem is ${oldItem.name}")
                 Log.e("UserListAdapter","newItem is ${newItem.name}")
                 Log.e("UserListAdapter","areContentsTheSame *****************************************")
-                return oldItem.name == newItem.name
+                return areItemsTheSame(oldItem,newItem)
                         && newItem.birthday == oldItem.birthday
                         && newItem.desc == oldItem.desc
-                        && newItem.phoneNumber == oldItem.phoneNumber
             }
         }
     }

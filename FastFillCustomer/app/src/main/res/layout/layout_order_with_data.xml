@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@{Long.toString(order.id)}"
+            android:text=""
             />
         <TextView
             android:id="@+id/tv_order_name"

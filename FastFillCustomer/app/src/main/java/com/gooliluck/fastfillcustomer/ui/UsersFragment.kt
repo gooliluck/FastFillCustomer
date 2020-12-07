@@ -53,7 +53,7 @@ class UsersFragment : BaseFragment() {
         mainViewModel.queryUserList.observe(viewLifecycleOwner, { users ->
             Log.e("show user","Query start $users")
             for (user in users) {
-                Log.e("show user","user id : ${user.id} and name : ${user.name}")
+                Log.e("show user","user id : and name : ${user.name}")
             }
         })
 

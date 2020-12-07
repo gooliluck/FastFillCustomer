@@ -84,18 +84,19 @@
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:hint="@string/new_user_birthday"/>
-                <DatePicker
-                    android:id="@+id/dp_birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:datePickerMode="spinner"
-                    android:maxDate=""
-                    android:calendarViewShown="false"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_birthday"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    android:hint="@string/new_user_birthday"/>
+                <EditText
+                    android:id="@+id/et_birthday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:inputType="date"
+                    android:hint="@string/new_user_birthday"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_birthday"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

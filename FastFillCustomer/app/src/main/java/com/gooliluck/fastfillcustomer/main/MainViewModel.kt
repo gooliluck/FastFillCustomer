@@ -1,7 +1,6 @@
 package com.gooliluck.fastfillcustomer.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +10,6 @@ import com.gooliluck.fastfillcustomer.data.model.Customer
 import com.gooliluck.fastfillcustomer.data.model.Order
 import com.gooliluck.fastfillcustomer.data.repository.RebornRepository
 import com.gooliluck.fastfillcustomer.ui.model.JPNavControl
-import java.util.*
 
 const val USER_ID_KEY = "user_id"
 enum class UserStatus {
@@ -23,7 +21,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var mAlertMessage = MutableLiveData<String>()
     val alertMessage : LiveData<String>
         get() = mAlertMessage
-//    val userList = rebo.getAllUsers()
     var currentUser = MutableLiveData<Customer>()
     var currentOrder = MutableLiveData<Order>()
     private var mShowFab = MutableLiveData<Boolean>()
@@ -54,12 +51,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mUserStatus.value = userStatus
     }
 
-//    fun getCurrentAllOrders() : LiveData<List<Order>>? {
-//        currentUser.value?.let {
-//            return rebo.getAllOrdersByUser(it.id)
-//        }
-//        return null
-//    }
 
     fun clearNavControl() {
         mNavControl.value = null
@@ -69,42 +60,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mNavControl.value = jpNavControl
     }
 
-//    fun getUserById(userId : Long){
-//        rebo.getUserById(userId)
-//    }
-
-//    fun getUserByPhoneNumber(phoneNumber: String){
-//        rebo.searchUserByPhoneNumber(phoneNumber,"")
-//    }
-
-//    fun getUserByName(name: String){
-//        rebo.searchUserByPhoneNumber("",name)
-//    }
 
     fun setFabShowing(show : Boolean) {
         mShowFab.value = show
-    }
-
-    fun tryUpdateUserData(name : String?,birthday : Calendar? , phoneNumber : String?, advancePayment : Int?, desc:String?, homeDesc:String?, work:String?){
-        Log.e("jptest","updateUserData name:$name ")
-        currentUser.value?.let { user ->
-            name?.let { user.name = it }
-            birthday?.let { user.birthday = it.time }
-            phoneNumber?.let { user.phoneNumber = it }
-            advancePayment?.let { user.advancePayment = it }
-            desc?.let { user.desc = it }
-            homeDesc?.let { user.homeDesc = it }
-            work?.let { user.work = it }
-            currentUser.postValue(user)
-        } ?: kotlin.run {
-            val newUser = Customer(name = "",  birthday = Calendar.getInstance().time, phoneNumber = "", advancePayment = 0, desc= "", homeDesc = "", work = "", firestoreDocId = "")
-            name?.let { newUser.name = it }
-            birthday?.let { newUser.birthday = it.time }
-            phoneNumber?.let { newUser.phoneNumber = it }
-            advancePayment?.let { newUser.advancePayment = it }
-            desc?.let { newUser.desc = it }
-            homeDesc?.let { newUser.homeDesc = it }
-            work?.let { newUser.work = it }
-        }
     }
 }

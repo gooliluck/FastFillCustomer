@@ -1,21 +1,16 @@
 package com.gooliluck.fastfillcustomer.data.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-const val TABLE_ORDER = "orders"
-@Entity(tableName = TABLE_ORDER)
-data class Order(@PrimaryKey val id: Long,
-                 var dateInLong : Long,
+data class Order(var dateInLong : Long,
                  var userid : Long,
                  var employeesJson : String,
                  var serviceListJson : String,
                  var desc : String
 ) {
     override fun toString(): String {
-        return "Order(id:$id" +
+        return "Order("+
                 "userid:$userid" +
                 "employees:${employees()}" +
                 "serviceList:${services()}" +
